@@ -8,14 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [1.0.0] - 2024-05-14
 
 ### Fixes
-- 55555555
-- 444
-- 5555
+
 
 
 
 ### Improvements
-- ...
-- ...
+
 
 
