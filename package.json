@@ -1,29 +1,20 @@
 {
-  "name": "com.thebaddest.Unity-Shortcuts",
-  "displayName": "Unity Shortcuts",
-  "version": "1.0.0",
-  "description": "Unity Shortcuts",
-  "keywords": [],
-  "samples": [
-    {
-      "displayName": "Sample",
-      "description": "A Sample in which a character patrol and find target",
-      "path": "Samples~"
-    }
-  ],
-  "relatedPackages": {},
-  "_upm": {
-    "changelog": ""
-  },
-  "documentationUrl": "https://github.com/UmairSaifullah01/Unity-Shortcuts",
-  "repository": {
-    "url": "https://github.com/UmairSaifullah01/Unity-Shortcuts.git",
-    "type": "git",
-    "revision": "a7dd0751db55cd55e3b336723fb51433c1de7244"
-  },
-  "author": {
-    "name": "Umair Saifullah",
-    "email": "contact@umairsaifullah.com",
-    "url": "https://www.umairsaifullah.com"
-  }
+	"name": "com.thebaddest.unityeditortools",
+	"version": "1.0.0",
+	"displayName": "UnityEditorTools",
+	"description": "A short description of your package.",
+	"unity": "2020.3",
+	"author": {
+		"name": "Umair Saifullah",
+		"email": "contact@umairsaifullah.com",
+		"url": "https://www.umairsaifullah.com"
+	},
+	"documentationUrl": "https://github.com/UmairSaifullah01/UnityEditorTools",
+	"repository": {
+		"url": "https://github.com/UmairSaifullah01/UnityEditorTools.git",
+		"type": "git",
+		"revision": ""
+	},
+	"dependencies": {}
 }
+			

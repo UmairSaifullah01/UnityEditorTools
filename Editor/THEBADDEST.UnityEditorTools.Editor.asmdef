@@ -1,0 +1,16 @@
+{
+    "name": "THEBADDEST.UnityEditorTools.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:fd117e8c53f114803bfd676d21b1cd3a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
