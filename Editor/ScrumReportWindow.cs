@@ -5,9 +5,8 @@ using UnityEditorInternal;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.EditorCoroutines.Editor;
 
-namespace AppCore
+namespace THEBADDEST
 {
     public class ScrumReportWindow : EditorWindow
     {
@@ -127,7 +126,7 @@ namespace AppCore
             slackMessageSender.SetWebhookUrl(webhookUrl);
             slackMessageSender.SetChannel(slackChannel);
             slackMessageSender.SetUsername(slackUsername);
-            EditorCoroutineUtility.StartCoroutine(slackMessageSender.PostMessage(report), this);
+            //EditorCoroutineUtility.StartCoroutine(slackMessageSender.PostMessage(report), this);
         }
 
         private string GenerateReport()
