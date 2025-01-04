@@ -1,12 +1,21 @@
 using System;
 using UnityEngine;
 
-[AttributeUsage(AttributeTargets.Method)]
-public class ButtonAttribute : PropertyAttribute
+
+namespace THEBADDEST.EditorTools
 {
-	
-	public ButtonAttribute()
-	{
-		
-	}
+
+	using UnityEngine;
+
+	[AttributeUsage(AttributeTargets.Method)]
+    public class ButtonAttribute : PropertyAttribute
+    {
+    	
+    	public ButtonAttribute()
+    	{
+    		
+    	}
+    }
+
+
 }

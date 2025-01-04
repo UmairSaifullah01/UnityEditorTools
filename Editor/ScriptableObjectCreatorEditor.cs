@@ -15,9 +15,8 @@ public class ScriptableObjectCreatorEditor : Editor
 
 		
 		// Ensure the scriptType is not null, is a class, and is a subclass of ScriptableObject
-		if (scriptType is { IsClass: true, Namespace: { } ns } && 
-			scriptType.IsSubclassOf(typeof(ScriptableObject)) && 
-			!ns.StartsWith("UnityEditor"))
+		if (scriptType is { IsClass: true } && 
+			scriptType.IsSubclassOf(typeof(ScriptableObject)) && scriptType.IsAbstract == false)
 		{ 
 			if (GUILayout.Button("Create ScriptableObject Asset"))
 			{
