@@ -1,3 +1,4 @@
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
@@ -18,15 +19,15 @@ namespace THEBADDEST.EditorTools
     
             if (targetObject == null) return;
     
-            var methods = targetObject.GetType().GetMethods();
-    
+            var methods = targetObject.GetType().GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
             foreach (var method in methods)
             {
                 var attributes = method.GetCustomAttributes(typeof(ButtonAttribute), false);
                 if (attributes.Length > 0)
                 {
                     var buttonAttribute = (ButtonAttribute)attributes[0];
-    
+
                     // Check the number of parameters
                     var parameters = method.GetParameters();
                     if (parameters.Length == 0)
@@ -37,7 +38,7 @@ namespace THEBADDEST.EditorTools
                             method.Invoke(targetObject, null);
                         }
                     }
-                    
+
                 }
             }
         }
