@@ -14,14 +14,21 @@ namespace THEBADDEST.EditorTools
 
     public static class EditorUtils 
     {
+        // Cache for GUIStyles to avoid repeated allocations
+        private static GUIStyle _boldFoldout;
+        private static readonly Dictionary<Color, GUIStyle> _styleCache = new Dictionary<Color, GUIStyle>();
+        private static readonly Dictionary<Color, Texture2D> _textureCache = new Dictionary<Color, Texture2D>();
 
         public static GUIStyle BoldFoldout
 		{
 			get
 			{
-				var boldFoldout = new GUIStyle(EditorStyles.foldout);
-				boldFoldout.fontStyle = FontStyle.Bold;
-				return boldFoldout;
+				if (_boldFoldout == null)
+				{
+					_boldFoldout = new GUIStyle(EditorStyles.foldout);
+					_boldFoldout.fontStyle = FontStyle.Bold;
+				}
+				return _boldFoldout;
 			}
 		}
 		public static GUIStyle Window
@@ -51,6 +58,12 @@ namespace THEBADDEST.EditorTools
 
 		public static GUIStyle Style(Color color)
 		{
+			// Check cache first
+			if (_styleCache.TryGetValue(color, out GUIStyle cachedStyle))
+			{
+				return cachedStyle;
+			}
+
 			GUIStyle currentStyle = new GUIStyle(GUI.skin.box) { border = new RectOffset(-1, -1, -1, -1) };
 			Texture2D bg = ColorToTexture2D(color);
 			currentStyle.normal.background = bg;
@@ -62,16 +75,26 @@ namespace THEBADDEST.EditorTools
 				currentStyle.normal.scaledBackgrounds = new Texture2D[] { }; // This can't be null
 			}
 			#endif
+			
+			_styleCache[color] = currentStyle;
 			return currentStyle;
 		}
 
 		public static Texture2D ColorToTexture2D(Color color)
 		{
+			// Check cache first
+			if (_textureCache.TryGetValue(color, out Texture2D cachedTexture))
+			{
+				return cachedTexture;
+			}
+
 			Color[]  pix          = new Color[1];
 			pix[0] = color;
 			Texture2D bg = new Texture2D(1, 1);
 			bg.SetPixels(pix);
 			bg.Apply();
+			
+			_textureCache[color] = bg;
 			return bg;
 		}
 
@@ -463,8 +486,7 @@ namespace THEBADDEST.EditorTools
                     EditorGUILayout.EndHorizontal();
                 }
             }
-			if(serializedObject != null)
-				serializedObject?.ApplyModifiedProperties();
+			serializedObject?.ApplyModifiedProperties();
         }
 
 		public static void DrawAddRemoveButton(Action addEvent, Action removeEvent)
@@ -491,10 +513,10 @@ namespace THEBADDEST.EditorTools
 				addEvent?.Invoke();
 			}
 
-			// if (GUI.Button(removeButtonRect, EditorGUIUtility.IconContent("Toolbar Minus")))
-			// {
-			// 	removeEvent?.Invoke();
-			// }
+			if (GUI.Button(removeButtonRect, EditorGUIUtility.IconContent("Toolbar Minus")))
+			{
+				removeEvent?.Invoke();
+			}
 		}
 
 		public static void DrawDescription(string v)

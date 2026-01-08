@@ -3,52 +3,59 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(MonoScript))]
-public class ScriptableObjectCreatorEditor : Editor
+
+namespace THEBADDEST.EditorTools
 {
-	public override void OnInspectorGUI()
+
+
+	[CustomEditor(typeof(MonoScript))]
+	public class ScriptableObjectCreatorEditor : UnityEditor.Editor
 	{
-		base.OnInspectorGUI();
 
-		MonoScript monoScript = (MonoScript)target;
-		Type       scriptType = monoScript.GetClass();
+		public override void OnInspectorGUI()
+		{
+			base.OnInspectorGUI();
+			MonoScript monoScript = (MonoScript)target;
+			Type scriptType = monoScript.GetClass();
 
-		
-		// Ensure the scriptType is not null, is a class, and is a subclass of ScriptableObject
-		if (scriptType is { IsClass: true } && 
-			scriptType.IsSubclassOf(typeof(ScriptableObject)) && scriptType.IsAbstract == false)
-		{ 
-			if (GUILayout.Button("Create ScriptableObject Asset"))
+			// Ensure the scriptType is not null, is a class, and is a subclass of ScriptableObject
+			if (scriptType is { IsClass: true } && scriptType.IsSubclassOf(typeof(ScriptableObject)) && scriptType.IsAbstract == false)
 			{
-				CreateScriptableObjectAsset(scriptType);
+				if (GUILayout.Button("Create ScriptableObject Asset"))
+				{
+					CreateScriptableObjectAsset(scriptType);
+				}
 			}
 		}
-	}
 
-	private void CreateScriptableObjectAsset(Type scriptType)
-	{
-		// Get the script asset's file path
-		string scriptPath = AssetDatabase.GetAssetPath(target);
-		string directory  = Path.GetDirectoryName(scriptPath);
-		string fileName   = scriptType.Name + ".asset";
-
-		// Generate unique asset path
-		string assetPath = AssetDatabase.GenerateUniqueAssetPath(Path.Combine(directory, fileName));
-
-		// Create the ScriptableObject instance
-		ScriptableObject instance = ScriptableObject.CreateInstance(scriptType);
-		if (instance == null)
+		private void CreateScriptableObjectAsset(Type scriptType)
 		{
-			Debug.LogError($"Failed to create an instance of {scriptType.Name}");
-			return;
+			// Get the script asset's file path
+			string scriptPath = AssetDatabase.GetAssetPath(target);
+			string directory = Path.GetDirectoryName(scriptPath);
+			string fileName = scriptType.Name + ".asset";
+
+			// Generate unique asset path
+			string assetPath = AssetDatabase.GenerateUniqueAssetPath(Path.Combine(directory, fileName));
+
+			// Create the ScriptableObject instance
+			ScriptableObject instance = ScriptableObject.CreateInstance(scriptType);
+			if (instance == null)
+			{
+				Debug.LogError($"Failed to create an instance of {scriptType.Name}");
+				return;
+			}
+
+			// Save the ScriptableObject as an asset
+			AssetDatabase.CreateAsset(instance, assetPath);
+			AssetDatabase.SaveAssets();
+
+			// Highlight the newly created asset in the Project window
+			EditorUtility.FocusProjectWindow();
+			Selection.activeObject = instance;
 		}
 
-		// Save the ScriptableObject as an asset
-		AssetDatabase.CreateAsset(instance, assetPath);
-		AssetDatabase.SaveAssets();
-
-		// Highlight the newly created asset in the Project window
-		EditorUtility.FocusProjectWindow();
-		Selection.activeObject = instance;
 	}
+
+
 }
