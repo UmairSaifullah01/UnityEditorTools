@@ -21,6 +21,9 @@ namespace THEBADDEST.EditorTools
 
 		private static string GetPropertyCacheKey(SerializedProperty property)
 		{
+			if (property?.serializedObject == null || property.serializedObject.targetObject==null)
+				return null;
+			
 			return property.serializedObject.targetObject.GetInstanceID() + "." + property.propertyPath;
 		}
 
@@ -33,6 +36,11 @@ namespace THEBADDEST.EditorTools
 		public static T[] GetAttributes<T>(SerializedProperty property) where T : class
 		{
 			string cacheKey = GetPropertyCacheKey(property);
+			if (string.IsNullOrEmpty(cacheKey))
+			{
+				var empty = new T[0];
+				return empty;
+			}
 			Type attributeType = typeof(T);
 
 			// Check attribute cache
